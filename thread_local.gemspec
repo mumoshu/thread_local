@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = ThreadLocal::VERSION
   spec.authors       = ["Yusuke KUOKA"]
   spec.email         = ["yusuke.kuoka@crowdworks.co.jp"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{An implementation of the thread-local variable.}
+  spec.description   = %q{An implementation of the thread-local variable provided in many programming languages like Java.}
+  spec.homepage      = "https://github.com/mumoshu/thread_local"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
