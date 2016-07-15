@@ -14,7 +14,7 @@ class ThreadLocal
     @threads_mutex = Mutex.new
     @threads = Set.new
 
-    define_initializer!
+    self.class.define_initializer!(self, @threads, value_key, value_initialized_key)
   end
 
   def get
@@ -101,17 +101,18 @@ class ThreadLocal
     end
   end
 
-  def define_initializer!
-    ObjectSpace.define_finalizer self do
+  def self.define_initializer!(thread_local, threads, value_key, value_initialized_key)
+    ObjectSpace.define_finalizer thread_local do
       # We don't synchronize `@threads` here,
       # assuming that this finalizer won't be called concurrently with `ThreadLocal#set`
-      @threads.each do |threads_object_id|
+      threads.each do |threads_object_id|
         t = Thread.all.find do |t|
           t.object_id == threads_object_id
         end
 
         unless t.nil?
-          t.thread_variable_set key, nil
+          t.thread_variable_set value_key, nil
+          t.thread_variable_set value_initialized_key, nil
         end
       end
     end
